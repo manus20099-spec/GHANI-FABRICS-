@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ghani Fabric – Unstitched Suits</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+/* ── RESET & ROOT ─────────────────────────────────────────────────────────── */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --g:#1A3A2A;--gm:#2D5A3D;--gl:#E8F2EC;
+  --gold:#B8860B;--gld:#F5E6B0;--gold-dark:#7A5800;
+  --bg:#F7F5F0;--card:#FFFFFF;--border:#E5DDD4;
+  --t:#1A1A1A;--ts:#6B6B6B;--info:#1565C0;
+  --red:#C0392B;--wa:#25D366;--wa2:#128C7E;
+  --r6:8px;--r10:12px;--r16:18px;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+}
+html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#E8E2D8;color:var(--t)}
+
+/* ── APP SHELL ─────────────────────────────────────────────────────────────── */
+.app-shell{
+  max-width:430px;margin:0 auto;
+  min-height:100vh;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  position:relative;
+  box-shadow:0 0 40px rgba(0,0,0,0.15);
+}
+
+/* ── TOP BAR ──────────────────────────────────────────────────────────────── */
+.top-bar{
+  background:var(--g);color:#fff;
+  padding:14px 16px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:90;
+  flex-shrink:0;
+}
+.top-bar .logo{display:flex;flex-direction:column;gap:1px}
+.top-bar .logo h1{font-size:17px;font-weight:700;color:var(--gld);letter-spacing:.5px}
+.top-bar .logo small{font-size:9px;color:rgba(255,255,255,.55);letter-spacing:1.5px;text-transform:uppercase}
+.top-icons{display:flex;gap:16px;align-items:center}
+.top-icons .ti{font-size:22px;color:rgba(255,255,255,.85);cursor:pointer;transition:color .15s}
+.top-icons .ti:hover{color:#fff}
+.cart-wrap{position:relative}
+.cart-bubble{
+  position:absolute;top:-7px;right:-9px;
+  background:var(--gold);color:#fff;
+  border-radius:50%;width:18px;height:18px;
+  font-size:10px;display:flex;align-items:center;justify-content:center;
+  font-weight:700;border:2px solid var(--g);
+  transition:transform .2s;
+}
+.cart-bubble.bump{transform:scale(1.4)}
+
+/* ── SEARCH BAR ───────────────────────────────────────────────────────────── */
+.search-bar{
+  background:var(--g);
+  padding:0 14px 14px;
+  flex-shrink:0;
+}
+.search-inner{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.13);
+  border-radius:var(--r10);
+  padding:9px 13px;
+  border:1px solid rgba(255,255,255,.1);
+}
+.search-inner .ti{font-size:18px;color:rgba(255,255,255,.5)}
+.search-inner input{
+  background:none;border:none;outline:none;
+  color:#fff;font-size:13px;width:100%;
+  font-family:inherit;
+}
+.search-inner input::placeholder{color:rgba(255,255,255,.4)}
+
+/* ── SCROLL AREA ──────────────────────────────────────────────────────────── */
+.scroll-area{flex:1;overflow-y:auto;overflow-x:hidden}
+.scroll-area::-webkit-scrollbar{width:3px}
+.scroll-area::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+/* ── BOTTOM NAV ───────────────────────────────────────────────────────────── */
+.bottom-nav{
+  display:flex;background:var(--card);
+  border-top:1px solid var(--border);
+  position:sticky;bottom:0;z-index:90;
+  flex-shrink:0;
+}
+.bnav-tab{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;gap:3px;padding:10px 4px 8px;
+  cursor:pointer;color:var(--ts);font-size:10px;
+  transition:color .15s;border:none;background:none;
+  font-family:inherit;
+}
+.bnav-tab .ti{font-size:22px;display:block}
+.bnav-tab.on{color:var(--g)}
+.bnav-tab.on .ti{font-weight:600}
+
+/* ── SCREENS ──────────────────────────────────────────────────────────────── */
+.screen{display:none}
+.screen.on{display:block}
+
+/* ════════════════════════════════════════════════════════
+   HOME SCREEN
+════════════════════════════════════════════════════════ */
+.hero{
+  background:linear-gradient(135deg,var(--g) 0%,#3D7A52 100%);
+  padding:22px 16px 24px;color:#fff;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;right:-40px;top:-40px;
+  width:150px;height:150px;
+  background:rgba(184,134,11,.12);border-radius:50%;
+}
+.hero::after{
+  content:'';position:absolute;left:60%;bottom:-50px;
+  width:120px;height:120px;
+  background:rgba(255,255,255,.04);border-radius:50%;
+}
+.hero-tag{
+  display:inline-block;background:var(--gold);color:#fff;
+  font-size:10px;font-weight:700;
+  padding:3px 11px;border-radius:var(--r6);
+  margin-bottom:11px;letter-spacing:.5px;
+  text-transform:uppercase;
+}
+.hero h2{font-size:22px;font-weight:700;line-height:1.25;margin-bottom:7px}
+.hero h2 span{color:var(--gld)}
+.hero p{font-size:12px;opacity:.8;margin-bottom:18px;line-height:1.6}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.hbtn{
+  padding:9px 20px;border-radius:var(--r10);
+  font-size:12px;font-weight:600;cursor:pointer;
+  border:none;font-family:inherit;transition:opacity .15s;
+}
+.hbtn:hover{opacity:.88}
+.hbtn-gold{background:var(--gold);color:#fff}
+.hbtn-ghost{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3)}
+
+/* STATS */
+.stats-row{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  background:var(--card);border-bottom:1px solid var(--border);
+}
+.stat-cell{
+  text-align:center;padding:13px 8px;
+  border-right:1px solid var(--border);
+}
+.stat-cell:last-child{border-right:none}
+.stat-cell .n{font-size:17px;font-weight:700;color:var(--g)}
+.stat-cell .l{font-size:10px;color:var(--ts);margin-top:2px}
+
+/* SEC TITLE */
+.sec-title{
+  font-size:13px;font-weight:600;color:var(--t);
+  padding:16px 14px 9px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.sec-title a{font-size:12px;color:var(--g);cursor:pointer;font-weight:400}
+
+/* TYPE TILES */
+.type-row{display:flex;gap:10px;padding:0 14px 14px}
+.type-tile{
+  flex:1;border-radius:var(--r16);border:1.5px solid var(--border);
+  padding:16px 10px 14px;text-align:center;cursor:pointer;
+  background:var(--card);transition:all .15s;
+}
+.type-tile:hover,.type-tile:active{border-color:var(--g);background:var(--gl)}
+.type-tile i{font-size:28px;color:var(--ts);display:block;margin-bottom:6px}
+.type-tile h4{font-size:13px;font-weight:600;color:var(--t)}
+.type-tile p{font-size:10px;color:var(--ts);margin-top:2px}
+.type-tile .tc{
+  display:inline-block;background:var(--gl);color:var(--g);
+  font-size:10px;padding:2px 9px;border-radius:20px;
+  margin-top:7px;font-weight:600;
+}
+
+/* FABRIC PILLS */
+.fab-scroll{display:flex;gap:10px;padding:0 14px 16px;overflow-x:auto}
+.fab-scroll::-webkit-scrollbar{display:none}
+.fab-pill{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;flex-shrink:0}
+.fab-icon{
+  width:50px;height:50px;border-radius:var(--r10);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;border:1.5px solid transparent;
+  transition:border-color .15s;
+}
+.fab-icon:hover,.fab-icon.sel{border-color:var(--g)}
+.fab-pill span{font-size:10px;color:var(--ts);white-space:nowrap}
+
+/* H-LIST */
+.h-list{display:flex;gap:12px;padding:0 14px 16px;overflow-x:auto}
+.h-list::-webkit-scrollbar{display:none}
+
+/* SUIT CARD — HORIZONTAL */
+.sc-h{
+  width:158px;flex-shrink:0;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r16);overflow:hidden;cursor:pointer;
+  transition:border-color .15s,box-shadow .15s;
+}
+.sc-h:hover{border-color:var(--g);box-shadow:var(--shadow)}
+.sc-h-img{
+  height:118px;display:flex;align-items:center;
+  justify-content:center;font-size:50px;
+  position:relative;
+}
+.sc-badge{
+  position:absolute;top:7px;left:7px;
+  font-size:9px;font-weight:700;padding:2px 8px;
+  border-radius:var(--r6);color:#fff;
+  text-transform:uppercase;letter-spacing:.3px;
+}
+.badge-new{background:var(--g)}
+.badge-hot{background:var(--red)}
+.badge-sale{background:var(--gold)}
+.sc-h-body{padding:9px 11px 11px}
+.sc-h-body .sc-type{font-size:10px;color:var(--gold);font-weight:700;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px}
+.sc-h-body h4{font-size:12px;font-weight:600;color:var(--t);margin-bottom:3px;line-height:1.35}
+.sc-h-body .sc-occ{font-size:10px;color:var(--ts);margin-bottom:6px}
+.sc-h-body .sc-price{font-size:14px;font-weight:700;color:var(--g)}
+.sc-h-body .sc-old{font-size:10px;color:var(--ts);text-decoration:line-through;margin-right:4px}
+.add-sm-btn{
+  background:var(--g);color:#fff;border:none;
+  border-radius:var(--r6);padding:6px 0;
+  font-size:11px;font-weight:600;cursor:pointer;
+  width:100%;margin-top:7px;font-family:inherit;
+  transition:background .15s;
+}
+.add-sm-btn:hover{background:var(--gm)}
+
+/* PROMO STRIP */
+.promo-strip{
+  margin:0 14px 14px;
+  background:linear-gradient(135deg,var(--g),#3D7A52);
+  border-radius:var(--r16);padding:15px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.promo-strip .pt{color:#fff}
+.promo-strip .pt h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.promo-strip .pt p{font-size:11px;opacity:.8}
+.promo-strip button{
+  background:var(--gold);color:#fff;border:none;
+  border-radius:var(--r10);padding:8px 16px;
+  font-size:11px;font-weight:700;cursor:pointer;
+  white-space:nowrap;font-family:inherit;flex-shrink:0;
+}
+
+/* TIKTOK STRIP */
+.tiktok-strip{
+  margin:0 14px 16px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r16);padding:14px 16px;
+  display:flex;align-items:center;gap:12px;
+}
+.tt-icon{
+  width:44px;height:44px;background:#010101;
+  border-radius:var(--r10);display:flex;
+  align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+}
+.tt-text{flex:1}
+.tt-text h4{font-size:13px;font-weight:600;color:var(--t);margin-bottom:2px}
+.tt-text p{font-size:11px;color:var(--ts)}
+.tt-btn{
+  background:#010101;color:#fff;border:none;
+  border-radius:var(--r6);padding:7px 13px;
+  font-size:11px;font-weight:600;cursor:pointer;
+  font-family:inherit;flex-shrink:0;
+}
+
+/* ════════════════════════════════════════════════════════
+   CATALOGUE SCREEN
+════════════════════════════════════════════════════════ */
+.filter-bar{
+  display:flex;gap:8px;
+  padding:12px 14px;
+  overflow-x:auto;background:var(--card);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:10;
+}
+.filter-bar::-webkit-scrollbar{display:none}
+.fchip{
+  padding:7px 14px;border-radius:20px;
+  border:1px solid var(--border);
+  font-size:12px;cursor:pointer;
+  color:var(--ts);white-space:nowrap;
+  background:var(--card);font-family:inherit;
+  transition:all .15s;flex-shrink:0;
+}
+.fchip.on{background:var(--g);color:#fff;border-color:var(--g)}
+
+.cat-count-bar{
+  padding:8px 14px 6px;
+  font-size:12px;color:var(--ts);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.sort-btn{
+  font-size:12px;color:var(--g);cursor:pointer;
+  display:flex;align-items:center;gap:4px;
+  background:none;border:none;font-family:inherit;font-weight:600;
+}
+
+/* SUIT GRID */
+.suit-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:11px;padding:4px 14px 100px;
+}
+.sc-g{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r16);overflow:hidden;
+  cursor:pointer;transition:border-color .15s,box-shadow .15s;
+}
+.sc-g:hover{border-color:var(--g);box-shadow:var(--shadow)}
+.sc-g-img{
+  height:110px;display:flex;align-items:center;
+  justify-content:center;font-size:44px;position:relative;
+}
+.sc-g-body{padding:9px 10px 11px}
+.sc-g-body .gtype{font-size:10px;color:var(--gold);font-weight:700;margin-bottom:2px;text-transform:uppercase}
+.sc-g-body h4{font-size:12px;font-weight:600;color:var(--t);margin-bottom:2px;line-height:1.35}
+.sc-g-body .gocc{font-size:10px;color:var(--ts);margin-bottom:5px}
+.sc-g-body .gprice{font-size:13px;font-weight:700;color:var(--g)}
+.sc-g-body .gprice small{font-size:10px;color:var(--ts);font-weight:400}
+.sc-g-body .gold-pr{font-size:10px;color:var(--ts);text-decoration:line-through;margin-right:3px}
+.add-g-btn{
+  background:var(--g);color:#fff;border:none;
+  border-radius:var(--r6);padding:6px 0;
+  font-size:11px;font-weight:600;cursor:pointer;
+  width:100%;margin-top:6px;font-family:inherit;
+  transition:background .15s;
+}
+.add-g-btn:hover{background:var(--gm)}
+
+/* EMPTY */
+.no-results{
+  grid-column:1/-1;text-align:center;
+  padding:50px 20px;color:var(--ts);
+}
+.no-results i{font-size:44px;display:block;margin-bottom:12px;color:var(--border)}
+.no-results p{font-size:14px}
+
+/* ════════════════════════════════════════════════════════
+   DETAIL SCREEN
+════════════════════════════════════════════════════════ */
+.detail-back{
+  padding:12px 14px;border-bottom:1px solid var(--border);
+  background:var(--card);
+}
+.detail-back button{
+  background:none;border:none;cursor:pointer;
+  color:var(--ts);font-size:13px;
+  display:flex;align-items:center;gap:5px;
+  font-family:inherit;
+}
+.det-img{
+  height:220px;display:flex;align-items:center;
+  justify-content:center;font-size:88px;
+}
+.det-body{padding:16px 16px 24px}
+.det-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.dtag{
+  font-size:10px;padding:3px 10px;
+  border-radius:20px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.3px;
+}
+.dtag-2{background:#E8EAF6;color:#283593}
+.dtag-3{background:#FCE4EC;color:#880E4F}
+.dtag-fab{background:var(--gl);color:var(--g)}
+.dtag-occ{background:#FFF9C4;color:#7A4F00}
+
+.det-body h2{font-size:20px;font-weight:700;color:var(--t);margin-bottom:10px;line-height:1.25}
+.det-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+.det-price{font-size:24px;font-weight:700;color:var(--g)}
+.det-old{font-size:14px;color:var(--ts);text-decoration:line-through}
+.det-per{font-size:12px;color:var(--ts)}
+
+/* INCLUDES BOX */
+.includes-box{
+  background:var(--gl);border-radius:var(--r10);
+  padding:12px 14px;margin-bottom:14px;
+  border:1px solid rgba(26,58,42,.12);
+}
+.inc-title{
+  font-size:10px;font-weight:700;color:var(--g);
+  margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;
+}
+.inc-row{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--gm);margin-bottom:5px;
+  font-weight:500;
+}
+.inc-row:last-child{margin-bottom:0}
+.inc-row i{font-size:14px;color:var(--g);flex-shrink:0}
+
+/* SAVE BADGE */
+.save-badge{
+  display:inline-block;background:#FEE2E2;color:var(--red);
+  font-size:10px;font-weight:700;padding:2px 8px;
+  border-radius:var(--r6);margin-left:8px;
+}
+
+.det-desc{font-size:13px;color:var(--ts);line-height:1.7;margin-bottom:16px}
+
+/* COLOR PICKER */
+.color-sec{margin-bottom:18px}
+.color-lbl{font-size:12px;font-weight:600;color:var(--t);margin-bottom:8px}
+.color-dots{display:flex;gap:8px;flex-wrap:wrap}
+.cdot{
+  width:26px;height:26px;border-radius:50%;
+  border:2px solid var(--border);cursor:pointer;
+  transition:transform .15s,border-color .15s;
+  position:relative;
+}
+.cdot:hover{transform:scale(1.15)}
+.cdot.sel{border-color:var(--g);border-width:2.5px}
+.cdot.sel::after{
+  content:'✓';position:absolute;
+  inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:12px;color:#fff;
+  font-weight:700;text-shadow:0 1px 2px rgba(0,0,0,.5);
+}
+
+/* QTY */
+.qty-section{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:18px;
+}
+.qty-section label{font-size:13px;color:var(--ts);font-weight:500}
+.qty-ctrl{display:flex;align-items:center;gap:10px}
+.qty-ctrl button{
+  width:30px;height:30px;border-radius:50%;
+  border:1px solid var(--border);background:var(--bg);
+  color:var(--t);font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-family:inherit;transition:background .15s;
+}
+.qty-ctrl button:hover{background:var(--gl);border-color:var(--g)}
+.qty-ctrl span{font-size:16px;font-weight:700;min-width:24px;text-align:center;color:var(--t)}
+
+/* DETAIL ACTIONS */
+.det-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn-add{
+  background:var(--g);color:#fff;border:none;
+  border-radius:var(--r10);padding:13px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:background .15s;
+}
+.btn-add:hover{background:var(--gm)}
+.btn-wa{
+  background:var(--wa);color:#fff;border:none;
+  border-radius:var(--r10);padding:13px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:background .15s;
+}
+.btn-wa:hover{background:var(--wa2)}
+
+/* ════════════════════════════════════════════════════════
+   CART SCREEN
+════════════════════════════════════════════════════════ */
+.cart-screen-wrap{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.ci{
+  display:flex;gap:10px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r16);padding:11px;
+}
+.ci-thumb{
+  width:52px;height:52px;border-radius:var(--r10);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex-shrink:0;
+}
+.ci-body{flex:1;min-width:0}
+.ci-body h4{font-size:13px;font-weight:600;color:var(--t);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-body .ci-sub{font-size:11px;color:var(--ts);margin-bottom:7px}
+.ci-body .ci-pr{font-size:14px;font-weight:700;color:var(--g)}
+.ci-remove{background:none;border:none;cursor:pointer;color:var(--ts);align-self:flex-start;padding:2px;transition:color .15s}
+.ci-remove:hover{color:var(--red)}
+.qty-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.qb{
+  width:24px;height:24px;border-radius:50%;
+  border:1px solid var(--border);background:var(--bg);
+  color:var(--t);font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-family:inherit;transition:all .15s;
+}
+.qb:hover{background:var(--gl);border-color:var(--g)}
+.qv{font-size:13px;font-weight:700;min-width:18px;text-align:center;color:var(--t)}
+
+/* SUMMARY */
+.cart-summary{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r16);padding:16px;
+}
+.sum-row{
+  display:flex;justify-content:space-between;
+  font-size:13px;color:var(--ts);margin-bottom:8px;
+}
+.sum-total{
+  display:flex;justify-content:space-between;
+  font-size:16px;font-weight:700;color:var(--t);
+  padding-top:11px;border-top:1px solid var(--border);
+  margin-top:4px;
+}
+.wa-full-btn{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;background:var(--wa);color:#fff;border:none;
+  border-radius:var(--r10);padding:14px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  margin-top:12px;font-family:inherit;
+  transition:background .15s;
+}
+.wa-full-btn:hover{background:var(--wa2)}
+.wa-full-btn i{font-size:20px}
+.confirm-full-btn{
+  width:100%;background:var(--g);color:#fff;border:none;
+  border-radius:var(--r10);padding:13px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  margin-top:8px;font-family:inherit;
+  transition:background .15s;
+}
+.confirm-full-btn:hover{background:var(--gm)}
+
+/* EMPTY CART */
+.empty-state{
+  text-align:center;padding:70px 24px;
+  color:var(--ts);
+}
+.empty-state i{font-size:56px;display:block;color:var(--border);margin-bottom:14px}
+.empty-state p{font-size:15px;margin-bottom:18px}
+.go-shop-btn{
+  background:var(--g);color:#fff;border:none;
+  border-radius:var(--r10);padding:11px 28px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  font-family:inherit;
+}
+
+/* ════════════════════════════════════════════════════════
+   WHOLESALE SCREEN
+════════════════════════════════════════════════════════ */
+.ws-hero{
+  background:var(--g);padding:22px 16px;color:#fff;
+}
+.ws-hero .eyebrow{font-size:10px;color:var(--gld);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.ws-hero h2{font-size:19px;font-weight:700;margin-bottom:5px}
+.ws-hero p{font-size:12px;opacity:.8;line-height:1.6}
+.ws-body{padding:14px;display:flex;flex-direction:column;gap:12px}
+.ws-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r16);padding:16px;
+}
+.ws-card-title{
+  font-size:13px;font-weight:700;color:var(--t);
+  margin-bottom:12px;padding-bottom:10px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:6px;
+}
+.ws-row{
+  display:flex;justify-content:space-between;
+  padding:8px 0;border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+.ws-row:last-child{border-bottom:none}
+.ws-row .lbl{color:var(--ts)}
+.ws-row .val{font-weight:600;color:var(--t)}
+.ws-row .val.disc{color:var(--red)}
+.ws-row .val.yes{color:green}
+.wa-ws-btn{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;background:var(--wa);color:#fff;border:none;
+  border-radius:var(--r10);padding:14px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:background .15s;
+}
+.wa-ws-btn:hover{background:var(--wa2)}
+.wa-ws-btn.two{background:var(--wa2)}
+.wa-ws-btn.two:hover{background:#0a6e5f}
+
+/* ════════════════════════════════════════════════════════
+   ACCOUNT SCREEN
+════════════════════════════════════════════════════════ */
+/* LOGIN */
+.login-wrap{padding:30px 20px}
+.login-brand{text-align:center;margin-bottom:26px}
+.lb-icon{
+  width:62px;height:62px;background:var(--g);
+  border-radius:var(--r16);display:flex;
+  align-items:center;justify-content:center;
+  margin:0 auto 12px;
+}
+.lb-icon i{font-size:28px;color:var(--gld)}
+.login-brand h2{font-size:18px;font-weight:700;color:var(--t)}
+.login-brand p{font-size:12px;color:var(--ts);margin-top:5px}
+.fgrp{margin-bottom:14px}
+.fgrp label{font-size:12px;color:var(--ts);display:block;margin-bottom:5px;font-weight:500}
+.fgrp input{
+  width:100%;padding:11px 13px;
+  border:1px solid var(--border);border-radius:var(--r10);
+  font-size:13px;background:var(--bg);color:var(--t);
+  font-family:inherit;transition:border-color .15s;
+}
+.fgrp input:focus{outline:none;border-color:var(--g)}
+.signin-btn{
+  width:100%;background:var(--g);color:#fff;border:none;
+  border-radius:var(--r10);padding:13px;
+  font-size:14px;font-weight:700;cursor:pointer;
+  font-family:inherit;margin-top:4px;
+}
+.divider-or{
+  text-align:center;font-size:12px;color:var(--ts);
+  margin:16px 0;position:relative;
+}
+.divider-or::before,.divider-or::after{
+  content:'';position:absolute;top:50%;width:42%;height:1px;
+  background:var(--border);
+}
+.divider-or::before{left:0}.divider-or::after{right:0}
+.wa-login-btn{
+  width:100%;background:var(--wa);color:#fff;border:none;
+  border-radius:var(--r10);padding:12px;
+  font-size:13px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;font-family:inherit;
+}
+.signup-link{text-align:center;font-size:12px;color:var(--ts);margin-top:16px}
+.signup-link a{color:var(--g);cursor:pointer;font-weight:600}
+
+/* LOGGED IN */
+.acc-top{
+  background:var(--g);padding:24px 16px 28px;
+  text-align:center;
+}
+.acc-avatar{
+  width:66px;height:66px;border-radius:50%;
+  background:var(--gold);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:700;margin:0 auto 11px;
+  border:3px solid rgba(255,255,255,.25);
+}
+.acc-top h3{color:#fff;font-size:17px;font-weight:700}
+.acc-top p{color:rgba(255,255,255,.65);font-size:12px;margin-top:3px}
+.acc-stats{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  border:1px solid var(--border);border-radius:var(--r16);
+  margin:14px;background:var(--card);overflow:hidden;
+}
+.astat{padding:13px 6px;text-align:center;border-right:1px solid var(--border)}
+.astat:last-child{border-right:none}
+.astat .n{font-size:18px;font-weight:700;color:var(--g)}
+.astat .l{font-size:10px;color:var(--ts);margin-top:2px}
+.acc-menu{
+  margin:0 14px;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--r16);
+  overflow:hidden;
+}
+.am-row{
+  display:flex;align-items:center;gap:13px;
+  padding:14px 16px;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background .12s;
+}
+.am-row:last-child{border-bottom:none}
+.am-row:hover{background:var(--bg)}
+.am-row .am-icon{font-size:19px;color:var(--ts)}
+.am-row span{font-size:13px;color:var(--t);flex:1;font-weight:500}
+.am-row .arr{font-size:15px;color:var(--border)}
+
+/* ── TOAST ─────────────────────────────────────────────────────────────────── */
+.toast{
+  position:fixed;bottom:80px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:var(--g);color:#fff;
+  padding:10px 20px;border-radius:var(--r10);
+  font-size:12px;font-weight:600;z-index:999;
+  opacity:0;transition:all .28s;
+  white-space:nowrap;pointer-events:none;
+  border-left:3px solid var(--gold);
+  box-shadow:0 4px 20px rgba(0,0,0,.2);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── UTILITY ────────────────────────────────────────────────────────────────── */
+.pb-100{padding-bottom:100px}
+@media(max-width:430px){
+  .app-shell{max-width:100%;box-shadow:none}
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="logo">
+      <h1>🧵 GHANI FABRIC</h1>
+      <small>Unstitched Suits · Wholesale</small>
+    </div>
+    <div class="top-icons">
+      <i class="ti ti-search" onclick="goTo('catalogue')"></i>
+      <div class="cart-wrap">
+        <i class="ti ti-shopping-cart" onclick="goTo('cart')"></i>
+        <span class="cart-bubble" id="cartBubble">0</span>
+      </div>
+      <i class="ti ti-user" onclick="goTo('account')"></i>
+    </div>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div class="search-bar" id="searchBar">
+    <div class="search-inner">
+      <i class="ti ti-search"></i>
+      <input type="text" id="searchInput" placeholder="Search suits — fabric, type, occasion…" oninput="doSearch()">
+    </div>
+  </div>
+
+  <!-- SCROLL AREA -->
+  <div class="scroll-area" id="scrollArea">
+
+    <!-- ═══════════════════ HOME ═══════════════════ -->
+    <div class="screen on" id="screen-home">
+      <div class="hero">
+        <div class="hero-tag">✨ 1700+ Unstitched Suit Designs</div>
+        <h2>Premium <span>Unstitched Suits</span><br>at Wholesale Prices</h2>
+        <p>2-piece & 3-piece · Lawn, Linen, Cotton, Silk, Khaddar<br>Ready-to-stitch · Delivered across Pakistan</p>
+        <div class="hero-btns">
+          <button class="hbtn hbtn-gold" onclick="goTo('catalogue')">Browse All Suits</button>
+          <button class="hbtn hbtn-ghost" onclick="goTo('wholesale')">Wholesale Info</button>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-cell"><div class="n">1700+</div><div class="l">Designs</div></div>
+        <div class="stat-cell"><div class="n">30+</div><div class="l">Years Experience</div></div>
+        <div class="stat-cell"><div class="n">COD</div><div class="l">Available</div></div>
+      </div>
+
+      <div class="sec-title">Choose Suit Type</div>
+      <div class="type-row">
+        <div class="type-tile" onclick="filterCat('2-Piece');goTo('catalogue')">
+          <i class="ti ti-shirt"></i>
+          <h4>2-Piece Suits</h4>
+          <p>Shirt + Trouser</p>
+          <span class="tc">900+ designs</span>
+        </div>
+        <div class="type-tile" onclick="filterCat('3-Piece');goTo('catalogue')">
+          <i class="ti ti-hanger"></i>
+          <h4>3-Piece Suits</h4>
+          <p>+ Dupatta / Shawl</p>
+          <span class="tc">800+ designs</span>
+        </div>
+      </div>
+
+      <div class="sec-title">Shop by Fabric</div>
+      <div class="fab-scroll">
+        <div class="fab-pill" onclick="filterFab('Lawn');goTo('catalogue')">
+          <div class="fab-icon" style="background:#e8f5e9">🌿</div><span>Lawn</span>
+        </div>
+        <div class="fab-pill" onclick="filterFab('Linen');goTo('catalogue')">
+          <div class="fab-icon" style="background:#fce4ec">🌸</div><span>Linen</span>
+        </div>
+        <div class="fab-pill" onclick="filterFab('Cotton');goTo('catalogue')">
+          <div class="fab-icon" style="background:#e3f2fd">☁️</div><span>Cotton</span>
+        </div>
+        <div class="fab-pill" onclick="filterFab('Silk');goTo('catalogue')">
+          <div class="fab-icon" style="background:#f3e5f5">💜</div><span>Silk</span>
+        </div>
+        <div class="fab-pill" onclick="filterFab('Khaddar');goTo('catalogue')">
+          <div class="fab-icon" style="background:#efebe9">🍂</div><span>Khaddar</span>
+        </div>
+        <div class="fab-pill" onclick="filterFab('Chiffon');goTo('catalogue')">
+          <div class="fab-icon" style="background:#fff9c4">✨</div><span>Chiffon</span>
+        </div>
+      </div>
+
+      <div class="sec-title">New Arrivals <a onclick="goTo('catalogue')">See all →</a></div>
+      <div class="h-list" id="newList"></div>
+
+      <div class="sec-title">🔥 Bestsellers <a onclick="goTo('catalogue')">See all →</a></div>
+      <div class="h-list" id="hotList"></div>
+
+      <div class="promo-strip">
+        <div class="pt">
+          <h4>Bulk Order Discount</h4>
+          <p>Order 5+ suits per design — up to 15% OFF</p>
+        </div>
+        <button onclick="goTo('wholesale')">Learn more</button>
+      </div>
+
+      <div class="tiktok-strip">
+        <div class="tt-icon">🎬</div>
+        <div class="tt-text">
+          <h4>Follow on TikTok</h4>
+          <p>Live sales & new arrivals @ghanifabric786</p>
+        </div>
+        <button class="tt-btn" onclick="window.open('https://tiktok.com/@ghanifabric786')">Follow</button>
+      </div>
+
+      <div class="pb-100"></div>
+    </div>
+
+    <!-- ═══════════════════ CATALOGUE ═══════════════════ -->
+    <div class="screen" id="screen-catalogue">
+      <div class="filter-bar" id="filterBar">
+        <span class="fchip on"  onclick="setF('All',this)">All</span>
+        <span class="fchip" onclick="setF('2-Piece',this)">2-Piece</span>
+        <span class="fchip" onclick="setF('3-Piece',this)">3-Piece</span>
+        <span class="fchip" onclick="setF('Lawn',this)">Lawn</span>
+        <span class="fchip" onclick="setF('Linen',this)">Linen</span>
+        <span class="fchip" onclick="setF('Cotton',this)">Cotton</span>
+        <span class="fchip" onclick="setF('Silk',this)">Silk</span>
+        <span class="fchip" onclick="setF('Khaddar',this)">Khaddar</span>
+        <span class="fchip" onclick="setF('Chiffon',this)">Chiffon</span>
+        <span class="fchip" onclick="setF('Casual',this)">Casual</span>
+        <span class="fchip" onclick="setF('Formal',this)">Formal</span>
+        <span class="fchip" onclick="setF('Bridal',this)">Bridal</span>
+        <span class="fchip" onclick="setF('Winter',this)">Winter</span>
+      </div>
+      <div class="cat-count-bar">
+        <span id="catCount" style="color:var(--ts);font-size:12px"></span>
+        <button class="sort-btn" onclick="toggleSort()"><i class="ti ti-arrows-sort"></i> Sort</button>
+      </div>
+      <div class="suit-grid" id="catalogueGrid"></div>
+    </div>
+
+    <!-- ═══════════════════ DETAIL ═══════════════════ -->
+    <div class="screen" id="screen-detail">
+      <div class="detail-back">
+        <button onclick="goBack()"><i class="ti ti-arrow-left"></i> Back</button>
+      </div>
+      <div id="detailContent"></div>
+    </div>
+
+    <!-- ═══════════════════ CART ═══════════════════ -->
+    <div class="screen" id="screen-cart">
+      <div id="cartContent"></div>
+    </div>
+
+    <!-- ═══════════════════ WHOLESALE ═══════════════════ -->
+    <div class="screen" id="screen-wholesale">
+      <div class="ws-hero">
+        <div class="eyebrow">WHOLESALE PROGRAM</div>
+        <h2>Partner with Ghani Fabric</h2>
+        <p>Special rates for retailers, tailors & boutiques across Pakistan</p>
+      </div>
+      <div class="ws-body">
+        <div class="ws-card">
+          <div class="ws-card-title">📦 Order Requirements</div>
+          <div class="ws-row"><span class="lbl">Min. order per design</span><span class="val">5 suits</span></div>
+          <div class="ws-row"><span class="lbl">Min. invoice value</span><span class="val">Rs. 5,000</span></div>
+          <div class="ws-row"><span class="lbl">Bulk discount (5+ suits)</span><span class="val disc">Up to 15% OFF</span></div>
+          <div class="ws-row"><span class="lbl">Custom orders</span><span class="val">Available</span></div>
+        </div>
+        <div class="ws-card">
+          <div class="ws-card-title">🚚 Delivery & Payment</div>
+          <div class="ws-row"><span class="lbl">Courier</span><span class="val">TCS / Leopard / M&P</span></div>
+          <div class="ws-row"><span class="lbl">Delivery time</span><span class="val">2–5 business days</span></div>
+          <div class="ws-row"><span class="lbl">Payment</span><span class="val">Cash / EasyPaisa / Bank</span></div>
+          <div class="ws-row"><span class="lbl">Cash on Delivery</span><span class="val yes">✓ Available</span></div>
+        </div>
+        <div class="ws-card">
+          <div class="ws-card-title">📍 Visit Our Store</div>
+          <div class="ws-row"><span class="lbl">Address</span><span class="val">Rancholine, Sabri Masjid Kay Samna</span></div>
+          <div class="ws-row"><span class="lbl">Hours</span><span class="val">Mon–Sat: 9AM–8PM</span></div>
+          <div class="ws-row"><span class="lbl">Phone 1</span><span class="val">0306-3084591</span></div>
+          <div class="ws-row"><span class="lbl">Phone 2</span><span class="val">0311-2580015</span></div>
+        </div>
+        <button class="wa-ws-btn" onclick="waMsg('wholesale inquiry')">
+          <i class="ti ti-brand-whatsapp" style="font-size:20px"></i>
+          WhatsApp: 0306-3084591
+        </button>
+        <button class="wa-ws-btn two" onclick="window.open('https://wa.me/923112580015?text='+encodeURIComponent('Assalamu Alaikum! Wholesale inquiry for Ghani Fabric.'))">
+          <i class="ti ti-brand-whatsapp" style="font-size:20px"></i>
+          WhatsApp: 0311-2580015
+        </button>
+      </div>
+      <div class="pb-100"></div>
+    </div>
+
+    <!-- ═══════════════════ ACCOUNT ═══════════════════ -->
+    <div class="screen" id="screen-account">
+      <div id="accountContent"></div>
+    </div>
+
+  </div><!-- /scroll-area -->
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <button class="bnav-tab on" id="tab-home"      onclick="goTo('home')">      <i class="ti ti-home"></i>Home</button>
+    <button class="bnav-tab"   id="tab-catalogue"  onclick="goTo('catalogue')"> <i class="ti ti-layout-grid"></i>Suits</button>
+    <button class="bnav-tab"   id="tab-cart"       onclick="goTo('cart')">      <i class="ti ti-shopping-cart"></i>Cart</button>
+    <button class="bnav-tab"   id="tab-wholesale"  onclick="goTo('wholesale')"> <i class="ti ti-building-store"></i>Wholesale</button>
+    <button class="bnav-tab"   id="tab-account"    onclick="goTo('account')">   <i class="ti ti-user"></i>Account</button>
+  </div>
+
+</div><!-- /app-shell -->
+
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════ JAVASCRIPT ═══════════════════ -->
+<script>
+/* ── DATA ── */
+const BG   = {Lawn:'#e8f5e9',Linen:'#fce4ec',Cotton:'#e3f2fd',Silk:'#f3e5f5',Khaddar:'#efebe9',Chiffon:'#fff9c4'};
+const ICON = {Lawn:'🌿',Linen:'🌸',Cotton:'☁️',Silk:'💜',Khaddar:'🍂',Chiffon:'✨'};
+
+const SUITS = [
+  {id:1,  name:"Lawn 2-Piece Summer",         type:"2-Piece", fab:"Lawn",    occ:"Casual",  price:1800, oldPrice:null, badge:"new",
+   inc:["Shirt fabric — 3 meters","Trouser cloth — 2.5 meters"],
+   colors:["#E91E63","#2196F3","#4CAF50","#FF9800","#9C27B0","#FFFFFF"],
+   desc:"Soft summer lawn suit with vibrant prints. Perfect for casual daily wear. Machine washable and colorfast fabric. Available in 20+ print designs."},
+
+  {id:2,  name:"Lawn 3-Piece Embroidered",    type:"3-Piece", fab:"Lawn",    occ:"Formal",  price:4500, oldPrice:5500, badge:"sale",
+   inc:["Embroidered shirt — 3 meters","Trouser cloth — 2.5 meters","Chiffon dupatta — 2.5 meters"],
+   colors:["#E91E63","#00BCD4","#FF5722","#673AB7"],
+   desc:"Elegant embroidered lawn 3-piece. Comes with a chiffon dupatta. Ideal for eid, family functions & formal gatherings."},
+
+  {id:3,  name:"Linen 2-Piece Classic",       type:"2-Piece", fab:"Linen",   occ:"Formal",  price:2800, oldPrice:null,  badge:null,
+   inc:["Linen shirt — 3 meters","Trouser cloth — 2.5 meters"],
+   colors:["#795548","#607D8B","#9E9E9E","#ECEFF1"],
+   desc:"Premium 100% linen for a crisp formal look. Breathable and comfortable all day. Available in 15 solid shades."},
+
+  {id:4,  name:"Linen 3-Piece Premium",       type:"3-Piece", fab:"Linen",   occ:"Formal",  price:4200, oldPrice:4800, badge:"sale",
+   inc:["Linen shirt — 3.5 meters","Trouser cloth — 2.5 meters","Linen dupatta — 2.5 meters"],
+   colors:["#5C6BC0","#EC407A","#26A69A","#8D6E63"],
+   desc:"Our best-selling linen 3-piece. Full linen set including a matching dupatta. Extremely popular among boutiques and retailers."},
+
+  {id:5,  name:"Cotton 2-Piece Daily Wear",   type:"2-Piece", fab:"Cotton",  occ:"Casual",  price:1500, oldPrice:1800, badge:"hot",
+   inc:["Cotton shirt — 3 meters","Trouser cloth — 2.5 meters"],
+   colors:["#FFFFFF","#FFF9C4","#E3F2FD","#E8F5E9","#FCE4EC","#F3E5F5"],
+   desc:"Most affordable everyday suit. Soft and lightweight cotton, easy to stitch. Available in 12 solid colors. Best value for money."},
+
+  {id:6,  name:"Cotton 3-Piece Printed",      type:"3-Piece", fab:"Cotton",  occ:"Casual",  price:2200, oldPrice:null, badge:"new",
+   inc:["Printed cotton shirt — 3 meters","Trouser cloth — 2.5 meters","Cotton dupatta — 2.5 meters"],
+   colors:["#FF8A65","#AED581","#4FC3F7","#CE93D8"],
+   desc:"Vibrant printed cotton 3-piece. Great value for casual and semi-formal wear. Prints updated every season."},
+
+  {id:7,  name:"Khaddar 2-Piece Winter",      type:"2-Piece", fab:"Khaddar", occ:"Winter",  price:2200, oldPrice:null, badge:null,
+   inc:["Khaddar shirt — 3 meters","Khaddar trouser — 2.5 meters"],
+   colors:["#6D4C41","#78909C","#546E7A","#4CAF50"],
+   desc:"Thick and warm khaddar for the winter season. Traditional weave, excellent heat retention. Perfect for shalwar kameez."},
+
+  {id:8,  name:"Khaddar 3-Piece + Shawl",    type:"3-Piece", fab:"Khaddar", occ:"Winter",  price:3500, oldPrice:4000, badge:"hot",
+   inc:["Khaddar shirt — 3 meters","Khaddar trouser — 2.5 meters","Wool shawl included"],
+   colors:["#5D4037","#37474F","#1B5E20","#880E4F"],
+   desc:"Complete winter set with a full wool shawl. Our best-selling winter suit. Warm, durable and stylish for the season."},
+
+  {id:9,  name:"Silk 2-Piece Eid Special",    type:"2-Piece", fab:"Silk",    occ:"Formal",  price:6500, oldPrice:null, badge:"new",
+   inc:["Pure silk shirt — 3 meters","Silk trouser cloth — 2.5 meters"],
+   colors:["#880E4F","#1A237E","#1B5E20","#F57F17"],
+   desc:"Luxurious pure silk for eid and formal occasions. Beautiful shimmering finish and smooth texture. A timeless classic."},
+
+  {id:10, name:"Silk 3-Piece Bridal",         type:"3-Piece", fab:"Silk",    occ:"Bridal",  price:9500, oldPrice:null, badge:"hot",
+   inc:["Pure silk shirt — 3 meters","Silk trouser — 2.5 meters","Silk dupatta — 2.5 meters"],
+   colors:["#B71C1C","#4A148C","#004D40","#F57F17"],
+   desc:"Premium bridal silk 3-piece complete set. Full silk including dupatta. Our most prestigious collection — limited stock."},
+
+  {id:11, name:"Chiffon 3-Piece Party",       type:"3-Piece", fab:"Chiffon", occ:"Formal",  price:5500, oldPrice:6500, badge:"sale",
+   inc:["Embroidered chiffon shirt — 3 meters","Trouser cloth — 2.5 meters","Chiffon dupatta — 2.5 meters"],
+   colors:["#E91E63","#9C27B0","#00BCD4","#FF5722"],
+   desc:"Stunning embroidered chiffon for parties and formal functions. Lightweight, flowing, and elegant. Multiple embroidery patterns."},
+
+  {id:12, name:"Lawn 2-Piece Digital Print",  type:"2-Piece", fab:"Lawn",    occ:"Casual",  price:2200, oldPrice:2700, badge:"sale",
+   inc:["Digital print lawn shirt — 3 meters","Trouser cloth — 2.5 meters"],
+   colors:["#FF8A65","#AED581","#4FC3F7","#CE93D8","#FFE082"],
+   desc:"Modern high-resolution digital print lawn. Vibrant and long-lasting colors. 20+ exclusive print designs available every season."},
+
+  {id:13, name:"Linen 2-Piece Summer",        type:"2-Piece", fab:"Linen",   occ:"Casual",  price:2400, oldPrice:null, badge:null,
+   inc:["Linen shirt — 3 meters","Trouser cloth — 2.5 meters"],
+   colors:["#FFFFFF","#F5F5F5","#E8EAF6","#E0F2F1"],
+   desc:"Light summer linen suit in pastel shades. Perfect for hot weather. Breathable and easy to iron."},
+
+  {id:14, name:"Cotton Cambric 3-Piece",      type:"3-Piece", fab:"Cotton",  occ:"Casual",  price:1900, oldPrice:2200, badge:"new",
+   inc:["Cambric shirt — 3 meters","Trouser cloth — 2.5 meters","Cotton dupatta — 2.5 meters"],
+   colors:["#FF8A65","#AED581","#80CBC4","#F48FB1"],
+   desc:"Soft cotton cambric 3-piece. Lightweight and smooth finish. Perfect for all-day comfort in every season."},
+
+  {id:15, name:"Silk 2-Piece Semi-Formal",    type:"2-Piece", fab:"Silk",    occ:"Formal",  price:5200, oldPrice:6000, badge:"sale",
+   inc:["Silk shirt — 3 meters","Trouser cloth — 2.5 meters"],
+   colors:["#880E4F","#1565C0","#2E7D32","#6A1B9A"],
+   desc:"Semi-formal silk suit for office, events and gatherings. Elegant drape and comfortable fit. A Ghani Fabric exclusive."},
+];
+
+/* ── STATE ── */
+let cart=[], cartFilter='All', prevScreen='home', curScreen='home', loggedIn=false, sortAsc=true;
+const selColor={};
+
+/* ── HELPERS ── */
+const bg   = s => BG[s.fab]   || '#f5f5f5';
+const icon = s => ICON[s.fab] || '🧵';
+const bdg  = b => b ? `<span class="sc-badge badge-${b}">${b.toUpperCase()}</span>` : '';
+const fmt  = n => 'Rs. ' + n.toLocaleString();
+const save = (s) => s.oldPrice ? Math.round((1 - s.price/s.oldPrice)*100) : 0;
+
+/* ── RENDER HOME ── */
+function renderHome(){
+  document.getElementById('newList').innerHTML =
+    SUITS.filter(s=>s.badge==='new').map(hCard).join('');
+  document.getElementById('hotList').innerHTML =
+    SUITS.filter(s=>s.badge==='hot').map(hCard).join('');
+}
+
+function hCard(s){
+  return `<div class="sc-h" onclick="openDetail(${s.id})">
+    <div class="sc-h-img" style="background:${bg(s)}">${bdg(s.badge)}${icon(s)}</div>
+    <div class="sc-h-body">
+      <div class="sc-type">${s.type} · ${s.fab}</div>
+      <h4>${s.name}</h4>
+      <div class="sc-occ">${s.occ}</div>
+      <div>${s.oldPrice?`<span class="sc-old">${fmt(s.oldPrice)}</span>`:''}<span class="sc-price">${fmt(s.price)}</span></div>
+      <button class="add-sm-btn" onclick="event.stopPropagation();addToCart(${s.id})">+ Add to Cart</button>
+    </div>
+  </div>`;
+}
+
+/* ── RENDER CATALOGUE ── */
+function getFiltered(){
+  const q = (document.getElementById('searchInput')?.value||'').toLowerCase();
+  let arr = SUITS.filter(s=>{
+    const mf = cartFilter==='All' || s.type===cartFilter || s.fab===cartFilter || s.occ===cartFilter;
+    const mq = !q || s.name.toLowerCase().includes(q) || s.fab.toLowerCase().includes(q) ||
+                     s.occ.toLowerCase().includes(q)  || s.type.toLowerCase().includes(q);
+    return mf && mq;
+  });
+  arr.sort((a,b) => sortAsc ? a.price-b.price : b.price-a.price);
+  return arr;
+}
+
+function renderCat(){
+  const arr = getFiltered();
+  document.getElementById('catCount').textContent = `${arr.length} suit${arr.length!==1?'s':''} found`;
+  document.getElementById('catalogueGrid').innerHTML = arr.length
+    ? arr.map(gCard).join('')
+    : `<div class="no-results"><i class="ti ti-search"></i><p>No suits found.<br>Try a different filter.</p></div>`;
+}
+
+function gCard(s){
+  return `<div class="sc-g" onclick="openDetail(${s.id})">
+    <div class="sc-g-img" style="background:${bg(s)}">${bdg(s.badge)}${icon(s)}</div>
+    <div class="sc-g-body">
+      <div class="gtype">${s.type} · ${s.fab}</div>
+      <h4>${s.name}</h4>
+      <div class="gocc">${s.occ}</div>
+      <div>${s.oldPrice?`<span class="gold-pr">${fmt(s.oldPrice)}</span>`:''}<span class="gprice">${fmt(s.price)} <small>/set</small></span></div>
+      <button class="add-g-btn" onclick="event.stopPropagation();addToCart(${s.id})">+ Add to Cart</button>
+    </div>
+  </div>`;
+}
+
+function setF(f,el){
+  cartFilter=f;
+  document.querySelectorAll('#filterBar .fchip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  renderCat();
+}
+function filterCat(f){cartFilter=f;}
+function filterFab(f){cartFilter=f;}
+function doSearch(){renderCat();}
+function toggleSort(){sortAsc=!sortAsc;renderCat();toast(`Sorted: ${sortAsc?'Price Low→High':'Price High→Low'}`);}
+
+/* ── DETAIL ── */
+function openDetail(id){
+  const s=SUITS.find(x=>x.id===id); if(!s) return;
+  prevScreen=curScreen;
+  if(!selColor[id]) selColor[id]=s.colors[0];
+  const sv=save(s);
+  document.getElementById('detailContent').innerHTML=`
+    <div class="det-img" style="background:${bg(s)}">${icon(s)}</div>
+    <div class="det-body">
+      <div class="det-tags">
+        <span class="dtag ${s.type==='2-Piece'?'dtag-2':'dtag-3'}">${s.type}</span>
+        <span class="dtag dtag-fab">${s.fab}</span>
+        <span class="dtag dtag-occ">${s.occ}</span>
+      </div>
+      <h2>${s.name}</h2>
+      <div class="det-price-row">
+        <span class="det-price">${fmt(s.price)}</span>
+        ${s.oldPrice?`<span class="det-old">${fmt(s.oldPrice)}</span>`:''} 
+        <span class="det-per">/ set</span>
+        ${sv?`<span class="save-badge">SAVE ${sv}%</span>`:''}
+      </div>
+      <div class="includes-box">
+        <div class="inc-title">📦 What's Included</div>
+        ${s.inc.map(i=>`<div class="inc-row"><i class="ti ti-check"></i>${i}</div>`).join('')}
+      </div>
+      <p class="det-desc">${s.desc}</p>
+      <div class="color-sec">
+        <div class="color-lbl">Color — <strong>${s.colors.length} shades available</strong></div>
+        <div class="color-dots" id="colorDots${id}">
+          ${s.colors.map(c=>`<div class="cdot${c===selColor[id]?' sel':''}" style="background:${c}" onclick="pickColor(${id},'${c}',this)"></div>`).join('')}
+        </div>
+      </div>
+      <div class="qty-section">
+        <label>Quantity (sets):</label>
+        <div class="qty-ctrl">
+          <button onclick="chDQ(-1)">−</button>
+          <span id="dqty">1</span>
+          <button onclick="chDQ(1)">+</button>
+        </div>
+      </div>
+      <div class="det-actions">
+        <button class="btn-add" onclick="addFromDet(${id})"><i class="ti ti-shopping-cart"></i> Add to Cart</button>
+        <button class="btn-wa"  onclick="waItem('${s.name.replace(/'/g,"\\'")}',${s.price})"><i class="ti ti-brand-whatsapp"></i> WhatsApp</button>
+      </div>
+    </div>
+    <div class="pb-100"></div>`;
+  goTo('detail');
+}
+
+function pickColor(id,col,el){
+  selColor[id]=col;
+  document.querySelectorAll(`#colorDots${id} .cdot`).forEach(d=>d.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function chDQ(d){const el=document.getElementById('dqty');if(el)el.textContent=Math.max(1,+el.textContent+d);}
+function addFromDet(id){addToCart(id,+(document.getElementById('dqty')?.textContent)||1);}
+
+/* ── CART ── */
+function addToCart(id,qty=1){
+  const s=SUITS.find(x=>x.id===id); if(!s) return;
+  const ex=cart.find(c=>c.id===id);
+  if(ex) ex.qty+=qty; else cart.push({...s,qty});
+  updateBubble();
+  toast(`✓ ${s.name} added to cart`);
+  if(curScreen==='cart') renderCart();
+}
+function remCI(id){cart=cart.filter(c=>c.id!==id);updateBubble();renderCart();}
+function chCQ(id,d){const c=cart.find(x=>x.id===id);if(c){c.qty=Math.max(1,c.qty+d);updateBubble();renderCart();}}
+
+function updateBubble(){
+  const n=cart.reduce((a,c)=>a+c.qty,0);
+  const b=document.getElementById('cartBubble');
+  b.textContent=n;
+  b.classList.add('bump');
+  setTimeout(()=>b.classList.remove('bump'),300);
+}
+
+function renderCart(){
+  const el=document.getElementById('cartContent');
+  if(!cart.length){
+    el.innerHTML=`<div class="empty-state">
+      <i class="ti ti-shopping-cart"></i>
+      <p>Your cart is empty</p>
+      <button class="go-shop-btn" onclick="goTo('catalogue')">Browse Suits</button>
+    </div>`;
+    return;
+  }
+  const sub=cart.reduce((a,c)=>a+c.price*c.qty,0);
+  const del=200;
+  el.innerHTML=`<div class="cart-screen-wrap">
+    ${cart.map(c=>`
+    <div class="ci">
+      <div class="ci-thumb" style="background:${bg(c)}">${icon(c)}</div>
+      <div class="ci-body">
+        <h4>${c.name}</h4>
+        <div class="ci-sub">${c.type} · ${c.fab} · ${c.occ}</div>
+        <div class="qty-row">
+          <button class="qb" onclick="chCQ(${c.id},-1)">−</button>
+          <span class="qv">${c.qty}</span>
+          <button class="qb" onclick="chCQ(${c.id},1)">+</button>
+          <span style="font-size:11px;color:var(--ts)">set${c.qty!==1?'s':''}</span>
+        </div>
+        <div class="ci-pr">${fmt(c.price * c.qty)}</div>
+      </div>
+      <button class="ci-remove" onclick="remCI(${c.id})"><i class="ti ti-x"></i></button>
+    </div>`).join('')}
+    <div class="cart-summary">
+      <div class="sum-row"><span>Subtotal (${cart.reduce((a,c)=>a+c.qty,0)} sets)</span><span>${fmt(sub)}</span></div>
+      <div class="sum-row"><span>Delivery</span><span>${fmt(del)}</span></div>
+      <div class="sum-total"><span>Total</span><span>${fmt(sub+del)}</span></div>
+      <button class="wa-full-btn" onclick="waOrder()">
+        <i class="ti ti-brand-whatsapp"></i> Order via WhatsApp
+      </button>
+      <button class="confirm-full-btn" onclick="toast('✓ Order confirmed! We will contact you soon.')">
+        Confirm Order
+      </button>
+    </div>
+    <div class="pb-100"></div>
+  </div>`;
+}
+
+/* ── ACCOUNT ── */
+function renderAccount(){
+  const el=document.getElementById('accountContent');
+  if(!loggedIn){
+    el.innerHTML=`<div class="login-wrap">
+      <div class="login-brand">
+        <div class="lb-icon"><i class="ti ti-hanger"></i></div>
+        <h2>Welcome to Ghani Fabric</h2>
+        <p>Sign in to track orders & get exclusive deals</p>
+      </div>
+      <div class="fgrp"><label>Phone / Email</label><input type="text" placeholder="03XX-XXXXXXX or email"></div>
+      <div class="fgrp"><label>Password</label><input type="password" placeholder="Enter your password"></div>
+      <button class="signin-btn" onclick="doLogin()">Sign In</button>
+      <div class="divider-or">or</div>
+      <button class="wa-login-btn" onclick="doLogin()">
+        <i class="ti ti-brand-whatsapp" style="font-size:18px"></i>
+        Continue with WhatsApp
+      </button>
+      <div class="signup-link">New customer? <a onclick="toast('Sign up coming soon!')">Create account →</a></div>
+    </div><div class="pb-100"></div>`;
+  } else {
+    el.innerHTML=`
+    <div class="acc-top">
+      <div class="acc-avatar">GF</div>
+      <h3>Ghani Fabric Customer</h3>
+      <p>Karachi · Member since 2024</p>
+    </div>
+    <div class="acc-stats">
+      <div class="astat"><div class="n">5</div><div class="l">Orders</div></div>
+      <div class="astat"><div class="n">3</div><div class="l">Wishlist</div></div>
+      <div class="astat"><div class="n">COD</div><div class="l">Preferred</div></div>
+    </div>
+    <div class="acc-menu">
+      <div class="am-row"><i class="ti ti-package am-icon"></i><span>My Orders</span><i class="ti ti-chevron-right arr"></i></div>
+      <div class="am-row"><i class="ti ti-heart am-icon"></i><span>Wishlist</span><i class="ti ti-chevron-right arr"></i></div>
+      <div class="am-row"><i class="ti ti-map-pin am-icon"></i><span>Delivery Addresses</span><i class="ti ti-chevron-right arr"></i></div>
+      <div class="am-row"><i class="ti ti-bell am-icon"></i><span>Notifications</span><i class="ti ti-chevron-right arr"></i></div>
+      <div class="am-row" onclick="waMsg('support query')">
+        <i class="ti ti-brand-whatsapp am-icon"></i><span>WhatsApp Support</span><i class="ti ti-chevron-right arr"></i>
+      </div>
+      <div class="am-row" onclick="doLogout()">
+        <i class="ti ti-logout am-icon" style="color:var(--red)"></i>
+        <span style="color:var(--red)">Sign Out</span>
+        <i class="ti ti-chevron-right arr"></i>
+      </div>
+    </div>
+    <div class="pb-100"></div>`;
+  }
+}
+
+function doLogin(){loggedIn=true; toast('✓ Signed in successfully!'); renderAccount();}
+function doLogout(){loggedIn=false; toast('Signed out'); renderAccount();}
+
+/* ── NAVIGATION ── */
+function goTo(name){
+  if(name!=='detail') prevScreen=curScreen;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById('screen-'+name).classList.add('on');
+  document.querySelectorAll('.bnav-tab').forEach(t=>t.classList.remove('on'));
+  const tab=document.getElementById('tab-'+name);
+  if(tab) tab.classList.add('on');
+  const hideSearch=['cart','account','detail','wholesale'].includes(name);
+  document.getElementById('searchBar').style.display = hideSearch ? 'none' : '';
+  document.getElementById('scrollArea').scrollTop = 0;
+  curScreen=name;
+  if(name==='cart') renderCart();
+  if(name==='account') renderAccount();
+  if(name==='catalogue') renderCat();
+}
+function goBack(){goTo(prevScreen||'home');}
+
+/* ── WHATSAPP ── */
+function waMsg(topic){
+  window.open(`https://wa.me/923063084591?text=${encodeURIComponent('Assalamu Alaikum! I have a '+topic+' for Ghani Fabric.')}`);}
+function waItem(name,price){
+  window.open(`https://wa.me/923063084591?text=${encodeURIComponent('Assalamu Alaikum!\nI want to order:\n*'+name+'*\nPrice: Rs.'+price.toLocaleString()+' per set\nPlease confirm availability and colors.')}`);}
+function waOrder(){
+  if(!cart.length) return;
+  let msg='Assalamu Alaikum!\nOrder from Ghani Fabric:\n\n';
+  cart.forEach(c=>{msg+=`▪ ${c.name} (${c.type} · ${c.fab}) — ${c.qty} set${c.qty!==1?'s':''} × Rs.${c.price.toLocaleString()} = Rs.${(c.price*c.qty).toLocaleString()}\n`;});
+  const sub=cart.reduce((a,c)=>a+c.price*c.qty,0);
+  msg+=`\nSubtotal: Rs.${sub.toLocaleString()}\nDelivery: Rs.200\nTotal: Rs.${(sub+200).toLocaleString()}\n\nPlease confirm availability and share delivery details. JazakAllah!`;
+  window.open(`https://wa.me/923063084591?text=${encodeURIComponent(msg)}`);
+}
+
+/* ── TOAST ── */
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+/* ── INIT ── */
+renderHome(); renderCat(); updateBubble();
+</script>
+</body>
+</html>
